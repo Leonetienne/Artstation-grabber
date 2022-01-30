@@ -22,7 +22,7 @@ Here we have three scripts:
 ```bash
 grab-artist.py 'mixppl'
 ```
-This will grab one individual profile, in this case the user 'mixppl'. You must use the username in profiles url! Not the full name!
+This will grab one individual profile, in this case the user 'mixppl'. You must use the username in the profiles url! Not the full name!
 
 ### Grab search results
 ```bash
