@@ -1,0 +1,16 @@
+--- 
+artists: 
+  - mixppl
+  - shumolly
+
+searches:
+ -
+  terms: Game of Thrones
+  max: 3
+
+ -
+  terms: Pirates
+  max: 3
+
+ -
+  terms: robby rotton

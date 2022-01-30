@@ -3,6 +3,9 @@ This is a personal and untested tool to keep (and update) local copies of artsta
 Project id's are saved in order to not re-download everything. This ensures that only new media will be downloaded in each cronjob instance.
 No fancy bs going on. Just a simple script bodged together within 10 minutes at 3 AM.
 
+Also supports to download search results.
+
+
 Currently only working for images. Feel free to issue a pull request if you want more.
 
 ## Setup
@@ -13,22 +16,57 @@ pip3 install requests pyyaml
 All scripts require Python3. Tested using 3.9.9.
 
 ## Running it
-Here we have two scripts:
+Here we have three scripts:
+
+### Grab an artists profile
 ```bash
-grab.py $artist-name
+grab-artist.py 'mixppl'
 ```
-This will grab one individual profile.
+This will grab one individual profile, in this case the user 'mixppl'. You must use the username in profiles url! Not the full name!
 
----
+### Grab search results
+```bash
+grab-search.py 'Game of Thrones' 100
+```
+This will grab the first 100 results of the search term 'Game of Thrones'.
+If you omit the result limit, **ALL** results will be downloaded! That could be useful, if your search query is very niche. But if you omit it for a popular search term, like 'Game of Thrones', you're in for a ride,
+as all approx 12000 projects will be queued for download.
 
+### Automate it
+### Invoke a scan
 ```bash
 grab-all.py
 ```
-This will call `grab.py` on all artists listed in `artists.yaml`.
+This will call `grab.py` on all artists and search terms listed in `to-grab.yaml`.
 
-Files will be saved to `./downloads/{artist_name}/*.{ext}`.
-Logs will be saved to `./logs/{artist_name}.txt`.
-Download indices (to skip already downloaded projects) are kept in `./already_saved/{artist_name}.txt`.
+Files will be saved to `./downloads/{artist_name}/*.{ext}` and `/downloads/search_{search_terms}/*{artist_id}_*.{ext}`.
+Logs will be saved to `./logs/{artist_name/search_terms}.txt`.
+Download indices (to skip already downloaded projects) are kept in `./already_saved/{artist_name/search_terms}.txt`.
+
+> :warning: Projects already downloaded from an artists-page will be downloaded **again** if they appear in a search term, and vica versa. Artist- and search queries do NOT share download indices!
+
+### Configure what to download
+Simply adjust [`to-grab.yaml`](https://github.com/Leonetienne/Artstation-grabber/blob/master/to-grab.yaml) to your needs. Here is an example:
+```
+--- 
+artists: 
+  - mixppl
+  - shumolly
+
+searches:
+ -
+  terms: Game of Thrones
+  max: 3
+
+ -
+  terms: Pirates
+  max: 3
+
+ -
+  terms: robby rotton
+```
+The last search term, 'robby rotton' shows that you can also omit `max`. If you do not want to fetch artists, or searches, at all, just delete that yaml-array entirely.
+
 
 ## A word on power usage
 Do not overuse this or you might piss of artstations maintainers. Just because you CAN download 400 gigabytes of images per day doesn't mean that you should!

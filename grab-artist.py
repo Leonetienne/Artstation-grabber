@@ -1,8 +1,6 @@
 import requests
 import mimetypes
-import os
 import sys
-import urllib.request
 from pathlib import Path
 from datetime import datetime
 import time
@@ -13,38 +11,7 @@ from headers import *
 
 # SYNPOSIS:
 # To download posts from an artist:
-# python3 grab.py mixppl
-
-def isPostAlreadySaved(post_id):
-    idset_filename = "./already_saved/" + slugify(artist_name) + ".txt"
-
-    # Does the index file even exist yet?
-    if not os.path.exists(idset_filename):
-        return False
-
-    # Open the index file
-    index_file = open(idset_filename, "r") # Open existing or create
-
-    # Store lines in array
-    already_downloaded_post_ids = index_file.readlines()
-
-    return (post_id + "\n") in already_downloaded_post_ids
-
-def markPostAsSaved(post_id):
-    idset_filename = "./already_saved/" + slugify(artist_name) + ".txt"
-
-    # Open the index file
-    index_file = open(idset_filename, "a") # Open existing or create
-    index_file.write(post_id + "\n")
-    index_file.close()
-
-
-def downloadMedia(url, filename):
-    # Prepare and execute query to download images
-    opener = urllib.request.build_opener()
-    opener.addheaders = image_request_headers
-    urllib.request.install_opener(opener)
-    source = urllib.request.urlretrieve(asset_image_url, filename)
+# python3 grab-artist.py mixppl
 
 # 2 minute timeout in case something gets stuck.
 socket.setdefaulttimeout(120)
@@ -90,7 +57,7 @@ try:
             logMsg(f"Found project '{project_name}' with id {project_hash_id}. Fetching more info about it...", "okndl", artist_name)
 
             # Have we already downloaded this post?
-            if not isPostAlreadySaved(project_hash_id):
+            if not isPostAlreadySaved(project_hash_id, artist_name):
 
                 # Fetch information about the project
                 project_info = requests.get(f"https://www.artstation.com/projects/{project_hash_id}.json", headers=project_fetch_headers)
@@ -116,7 +83,7 @@ try:
                         logMsg(f"Found non-image-asset for project '{project_name}' [{project_hash_id}] at position {asset_position}. Skipping...", "okdl", artist_name)
 
                 # After downloading all assets, mark the project as downloaded.
-                markPostAsSaved(project_hash_id)
+                markPostAsSaved(project_hash_id, artist_name)
 
             # Project is already downloaded
             else:
@@ -124,7 +91,7 @@ try:
 
     logMsg(f"Finished all pages of {artist_name}... Total pages of this artist scanned: {pageCounter}", "okndl", artist_name)
 
-except socket.timeout:
+except socket.timeout as exc:
     logMsg("Socket timeout of two minutes reached! We'll get 'em next time, boys!", "err", artist_name)
-except:
-    logMsg("Failed for some reason!", "err", artist_name)
+except BaseException as exc:
+    logMsg("Failed for some reason!: " + repr(exc), "err", artist_name)

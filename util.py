@@ -3,6 +3,9 @@ from datetime import datetime
 import time
 from pathlib import Path
 import re
+import os
+import urllib.request
+from headers import *
 
 class bcolors:
     HEADER = '\033[95m'
@@ -92,3 +95,34 @@ def slugify(value, allow_unicode=False):
 
 def getCurrentTimestamp():
     return datetime.utcfromtimestamp(time.time()).strftime("%m-%d-%Y %H-%M")
+
+def isPostAlreadySaved(post_id, artist_name):
+    idset_filename = "./already_saved/" + slugify(artist_name) + ".txt"
+
+    # Does the index file even exist yet?
+    if not os.path.exists(idset_filename):
+        return False
+
+    # Open the index file
+    index_file = open(idset_filename, "r") # Open existing or create
+
+    # Store lines in array
+    already_downloaded_post_ids = index_file.readlines()
+
+    return (post_id + "\n") in already_downloaded_post_ids
+
+def markPostAsSaved(post_id, artist_name):
+    idset_filename = "./already_saved/" + slugify(artist_name) + ".txt"
+
+    # Open the index file
+    index_file = open(idset_filename, "a") # Open existing or create
+    index_file.write(post_id + "\n")
+    index_file.close()
+
+
+def downloadMedia(url, filename):
+    # Prepare and execute query to download images
+    opener = urllib.request.build_opener()
+    opener.addheaders = image_request_headers
+    urllib.request.install_opener(opener)
+    source = urllib.request.urlretrieve(url, filename)
