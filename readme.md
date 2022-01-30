@@ -19,6 +19,8 @@ grab.py $artist-name
 ```
 This will grab one individual profile, if it is not already downloaded.
 
+---
+
 ```bash
 grab-all.py
 ```
