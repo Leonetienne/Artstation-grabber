@@ -30,6 +30,9 @@ Files will be saved to `./downloads/{artist_name}/*.{ext}`.
 Logs will be saved to `./logs/{artist_name}.txt`.
 Download indices (to skip already downloaded projects) are kept in `./already_saved/{artist_name}.txt`.
 
+## A word on power usage
+Do not overuse this or you might piss of artstations maintainers. Just because you CAN download 400 gigabytes of images per day doesn't mean that you should!
+If you plan on downloading LOADS of stuff, you should add some sleep statement to cut the servers some slack.
 
 # LICENSE
 ```
