@@ -41,7 +41,7 @@ This will call `grab-artists.py` and `grab-search.py` on all artists and search 
 
 Files will be saved to `./downloads/{artist_name|search_terms}/`.  
 Logs will be saved to `./logs/{artist_name|search_terms}.txt`.  
-Download indices (to skip already downloaded projects) are kept in `./already_saved/{artist_name|search_terms}.txt`.
+Download indices are kept in `./already_saved/{artist_name|search_terms}.txt`. These are needed to skip already downloaded projects.
 
 > :warning: Projects already downloaded from an artists-page will be downloaded **again** if they appear in a search term, and vica versa. Artist- and search queries do NOT share download indices!
 
