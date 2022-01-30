@@ -17,7 +17,7 @@ Here we have two scripts:
 ```bash
 grab.py $artist-name
 ```
-This will grab one individual profile, if it is not already downloaded.
+This will grab one individual profile.
 
 ---
 
