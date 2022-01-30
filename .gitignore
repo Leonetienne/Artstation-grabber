@@ -1,4 +1,4 @@
 /logs/
 /downloads/
 /already_saved/
-
+__pycache__/
