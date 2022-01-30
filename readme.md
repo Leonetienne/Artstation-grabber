@@ -33,11 +33,11 @@ If you omit the result limit, **ALL** results will be downloaded! That could be 
 as all approx 12000 projects will be queued for download.
 
 ### Automate it
-### Invoke a scan
+### Invoke downloads / a scan
 ```bash
 grab-all.py
 ```
-This will call `grab.py` on all artists and search terms listed in `to-grab.yaml`.
+This will call `grab-artists.py` and `grab-search.py` on all artists and search terms listed in `to-grab.yaml`.
 
 Files will be saved to `./downloads/{artist_name}/*.{ext}` and `/downloads/search_{search_terms}/*{artist_id}_*.{ext}`.
 Logs will be saved to `./logs/{artist_name/search_terms}.txt`.
