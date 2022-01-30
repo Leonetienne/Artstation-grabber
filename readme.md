@@ -32,7 +32,7 @@ Download indices (to skip already downloaded projects) are kept in `./already_sa
 
 ## A word on power usage
 Do not overuse this or you might piss of artstations maintainers. Just because you CAN download 400 gigabytes of images per day doesn't mean that you should!
-If you plan on downloading LOADS of stuff, you should add some sleep statement to cut the servers some slack.
+If you plan on downloading LOADS of stuff, you should add some sleep statements to cut the servers some slack.
 
 # LICENSE
 ```
