@@ -1,0 +1,4 @@
+install these via pip3
+
+request
+pyyaml
