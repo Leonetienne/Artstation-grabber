@@ -39,8 +39,8 @@ grab-all.py
 ```
 This will call `grab-artists.py` and `grab-search.py` on all artists and search terms listed in [`to-grab.yaml`](https://github.com/Leonetienne/Artstation-grabber/blob/master/to-grab.yaml).
 
-Files will be saved to `./downloads/{artist_name|search_terms}/`.
-Logs will be saved to `./logs/{artist_name|search_terms}.txt`.
+Files will be saved to `./downloads/{artist_name|search_terms}/`.  
+Logs will be saved to `./logs/{artist_name|search_terms}.txt`.  
 Download indices (to skip already downloaded projects) are kept in `./already_saved/{artist_name|search_terms}.txt`.
 
 > :warning: Projects already downloaded from an artists-page will be downloaded **again** if they appear in a search term, and vica versa. Artist- and search queries do NOT share download indices!
