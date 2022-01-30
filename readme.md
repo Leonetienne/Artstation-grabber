@@ -8,7 +8,7 @@ Currently only working for images. Feel free to issue a pull request if you want
 ## Setup
 Install required pip modules.
 ```bash
-pip3 install request pyyaml
+pip3 install requests pyyaml
 ```
 All scripts require Python3. Tested using 3.9.9.
 
