@@ -50,7 +50,7 @@ def logMsg(msg, mode):
     timestamp = getCurrentTimestamp()
 
     # Log to console
-    print(col + "[" + timestamp + "]: " + msg)
+    print(col + f"[{timestamp}][{artist_name}]: " + msg)
 
     # Log to logfile
     logfile = open("./logs/" + slugify(artist_name) + ".txt", "a") # Open existing or create
