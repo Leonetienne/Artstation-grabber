@@ -184,45 +184,62 @@ Path("./logs/").mkdir(parents=True, exist_ok=True)
 
 
 # Request project info for artist
-projects_data = requests.get(f"https://www.artstation.com/users/{artist_name}/projects.json", headers=project_fetch_headers)
-projects = projects_data.json()["data"]
+lastPageReached = False
+pageCounter = 1
+while not lastPageReached:
+    logMsg(f"Fetching page {pageCounter} of {artist_name}...", "okndl")
+    projects_data = requests.get(f"https://www.artstation.com/users/{artist_name}/projects.json?page={pageCounter}", headers=project_fetch_headers)
+    projects = projects_data.json()["data"]
 
-# For each project in all of the artists projects
-for project in projects:
-    project_name    = project["title"]
-    project_hash_id = project["hash_id"]
+    page_num_projects = len(projects)
 
-    logMsg(f"Found project {project_name} with id {project_hash_id}. Fetching more info about it...", "okndl")
+    lastPageReached = page_num_projects < 50 # Each full page contains 50 projects. If it has less than 50, it is the last page
 
-    # Have we already downloaded this post?
-    if not isPostAlreadySaved(project_hash_id):
-
-        # Fetch information about the project
-        project_info = requests.get(f"https://www.artstation.com/projects/{project_hash_id}.json", headers=project_fetch_headers)
-        assets = project_info.json()["assets"]
-
-        # For each asset in the project (might be multiple images)
-        for asset in assets:
-            asset_type = asset["asset_type"]
-
-            # If the asset is an image
-            if asset_type == "image":
-                asset_image_url = asset["image_url"]
-                asset_position = asset["position"]
-                
-                # Generate a download filename
-                filename = artist_directory + slugify(project_name[:60] + "_" + project_hash_id + "_" + str(asset_position)) + "." + extensionFromUrl(asset_image_url)
-
-                logMsg(f"Found image-asset for project {project_name} [{project_hash_id}] at position {asset_position}. Downloading to '{filename}'...", "okdl")
-
-                # Download it
-                downloadMedia(asset_image_url, filename)
-            else:
-                logMsg(f"Found non-image-asset for project {project_name} [{project_hash_id}] at position {asset_position}. Skipping...", "okdl")
-
-        # After downloading all assets, mark the project as downloaded.
-        markPostAsSaved(project_hash_id)
-
-    # Project is already downloaded
+    if not lastPageReached:
+        pageCounter = pageCounter + 1
+        logMsg(f"Page contains {page_num_projects} projects...", "okndl")
     else:
-        logMsg(f"Skipping project {project_name} [{project_hash_id}] because it is already downloaded.", "okndl")
+        logMsg(f"Page contains {page_num_projects} projects... That's the last page!", "okndl")
+
+
+    # For each project in all of the artists projects
+    for project in projects:
+        project_name    = project["title"]
+        project_hash_id = project["hash_id"]
+
+        logMsg(f"Found project {project_name} with id {project_hash_id}. Fetching more info about it...", "okndl")
+
+        # Have we already downloaded this post?
+        if not isPostAlreadySaved(project_hash_id):
+
+            # Fetch information about the project
+            project_info = requests.get(f"https://www.artstation.com/projects/{project_hash_id}.json", headers=project_fetch_headers)
+            assets = project_info.json()["assets"]
+
+            # For each asset in the project (might be multiple images)
+            for asset in assets:
+                asset_type = asset["asset_type"]
+
+                # If the asset is an image
+                if asset_type == "image":
+                    asset_image_url = asset["image_url"]
+                    asset_position = asset["position"]
+                    
+                    # Generate a download filename
+                    filename = artist_directory + slugify(project_name[:60] + "_" + project_hash_id + "_" + str(asset_position)) + "." + extensionFromUrl(asset_image_url)
+
+                    logMsg(f"Found image-asset for project {project_name} [{project_hash_id}] at position {asset_position}. Downloading to '{filename}'...", "okdl")
+
+                    # Download it
+                    downloadMedia(asset_image_url, filename)
+                else:
+                    logMsg(f"Found non-image-asset for project {project_name} [{project_hash_id}] at position {asset_position}. Skipping...", "okdl")
+
+            # After downloading all assets, mark the project as downloaded.
+            markPostAsSaved(project_hash_id)
+
+        # Project is already downloaded
+        else:
+            logMsg(f"Skipping project {project_name} [{project_hash_id}] because it is already downloaded.", "okndl")
+
+logMsg(f"Finished all pages of {artist_name}... Total pages of this artist scanned: {pageCounter}", "okndl")
