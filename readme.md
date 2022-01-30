@@ -63,9 +63,9 @@ searches:
   max: 3
 
  -
-  terms: robby rotton
+  terms: Robby Rotton
 ```
-The last search term, 'robby rotton' is to show that you can also omit `max`. If you do not want to fetch artists, or searches, at all, just delete that yaml-array entirely.
+The last search term, 'Robby Rotton', is to show that you can also omit `max`. If you do not want to fetch artists, or searches, at all, just delete that yaml-array entirely.
 
 
 ## A word on power usage
