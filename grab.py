@@ -207,7 +207,7 @@ while not lastPageReached:
         project_name    = project["title"]
         project_hash_id = project["hash_id"]
 
-        logMsg(f"Found project {project_name} with id {project_hash_id}. Fetching more info about it...", "okndl")
+        logMsg(f"Found project '{project_name}' with id {project_hash_id}. Fetching more info about it...", "okndl")
 
         # Have we already downloaded this post?
         if not isPostAlreadySaved(project_hash_id):
@@ -228,18 +228,18 @@ while not lastPageReached:
                     # Generate a download filename
                     filename = artist_directory + slugify(project_name[:60] + "_" + project_hash_id + "_" + str(asset_position)) + "." + extensionFromUrl(asset_image_url)
 
-                    logMsg(f"Found image-asset for project {project_name} [{project_hash_id}] at position {asset_position}. Downloading to '{filename}'...", "okdl")
+                    logMsg(f"Found image-asset for project '{project_name}' [{project_hash_id}] at position {asset_position}. Downloading to '{filename}'...", "okdl")
 
                     # Download it
                     downloadMedia(asset_image_url, filename)
                 else:
-                    logMsg(f"Found non-image-asset for project {project_name} [{project_hash_id}] at position {asset_position}. Skipping...", "okdl")
+                    logMsg(f"Found non-image-asset for project '{project_name}' [{project_hash_id}] at position {asset_position}. Skipping...", "okdl")
 
             # After downloading all assets, mark the project as downloaded.
             markPostAsSaved(project_hash_id)
 
         # Project is already downloaded
         else:
-            logMsg(f"Skipping project {project_name} [{project_hash_id}] because it is already downloaded.", "okndl")
+            logMsg(f"Skipping project '{project_name}' [{project_hash_id}] because it is already downloaded.", "okndl")
 
 logMsg(f"Finished all pages of {artist_name}... Total pages of this artist scanned: {pageCounter}", "okndl")
