@@ -104,7 +104,8 @@ try:
 
                 # After downloading all assets, mark the project as downloaded.
                 markPostAsSaved(project_hash_id, search_terms_filename)
-                projectCounter = projectCounter + 1
+                
+            projectCounter = projectCounter + 1
 
             # Project is already downloaded
             else:
