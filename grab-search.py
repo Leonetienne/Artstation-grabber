@@ -105,11 +105,11 @@ try:
                 # After downloading all assets, mark the project as downloaded.
                 markPostAsSaved(project_hash_id, search_terms_filename)
                 
-            projectCounter = projectCounter + 1
-
             # Project is already downloaded
             else:
                 logMsg(f"Skipping project '{project_name}' [{project_hash_id}] of artist '{project_artist_name_fullname}' (user-id=[{project_artist_name}]) because it is already downloaded.", "okndl", search_terms_filename)
+            
+            projectCounter = projectCounter + 1
 
     logMsg(f"Finished all search result pages of '{search_terms}'... Total pages scanned: {pageCounter}", "okndl", search_terms_filename)
 
