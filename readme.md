@@ -22,7 +22,7 @@ Here we have three scripts:
 ```bash
 grab-artist.py 'mixppl'
 ```
-This will grab one individual profile, in this case the user 'mixppl'. You must use the username in profiles url! Not the full name!
+This will grab one individual profile, in this case the user 'mixppl'. You must use the username in the profiles url! Not the full name!
 
 ### Grab search results
 ```bash
@@ -33,17 +33,17 @@ If you omit the result limit, **ALL** results will be downloaded! That could be 
 as all approx 12000 projects will be queued for download.
 
 ### Automate it
-### Invoke a scan
+### Invoke downloads / a scan
 ```bash
 grab-all.py
 ```
-This will call `grab.py` on all artists and search terms listed in `to-grab.yaml`.
+This will call `grab-artists.py` and `grab-search.py` on all artists and search terms listed in [`to-grab.yaml`](https://github.com/Leonetienne/Artstation-grabber/blob/master/to-grab.yaml).
 
-Files will be saved to `./downloads/{artist_name}/*.{ext}` and `/downloads/search_{search_terms}/*{artist_id}_*.{ext}`.
-Logs will be saved to `./logs/{artist_name/search_terms}.txt`.
-Download indices (to skip already downloaded projects) are kept in `./already_saved/{artist_name/search_terms}.txt`.
+Files will be saved to `./downloads/{artist_name|search_terms}/`.  
+Logs will be saved to `./logs/{artist_name|search_terms}.txt`.  
+Download indices are kept in `./already_saved/{artist_name|search_terms}.txt`. These are needed to skip already downloaded projects.
 
-> :warning: Projects already downloaded from an artists-page will be downloaded **again** if they appear in a search term, and vica versa. Artist- and search queries do NOT share download indices!
+> :warning: Download indices are NOT shared between profiles / search queries! If an image occurs in two different search terms, it will be downloaded twice!
 
 ### Configure what to download
 Simply adjust [`to-grab.yaml`](https://github.com/Leonetienne/Artstation-grabber/blob/master/to-grab.yaml) to your needs. Here is an example:
@@ -63,9 +63,9 @@ searches:
   max: 3
 
  -
-  terms: robby rotton
+  terms: Robby Rotton
 ```
-The last search term, 'robby rotton' shows that you can also omit `max`. If you do not want to fetch artists, or searches, at all, just delete that yaml-array entirely.
+The last search term, 'Robby Rotton', is to show that you can also omit `max`. If you do not want to fetch artists, or searches, at all, just delete that yaml-array entirely.
 
 
 ## A word on power usage
