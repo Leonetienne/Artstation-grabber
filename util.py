@@ -4,6 +4,7 @@ import time
 from pathlib import Path
 import re
 import os
+import codecs
 import urllib.request
 from headers import *
 
@@ -47,7 +48,7 @@ def logMsg(msg, mode, artist_name):
     print(col + f"[{timestamp}][{artist_name}]: " + msg)
 
     # Log to logfile
-    logfile = open("./logs/" + slugify(artist_name) + ".txt", "a") # Open existing or create
+    logfile = codecs.open("./logs/" + slugify(artist_name) + ".txt", "a", 'u8') # Open existing or create
     logfile.write(prefix + " " + "[" + timestamp + "]: " + msg + "\n")
     logfile.close()
 

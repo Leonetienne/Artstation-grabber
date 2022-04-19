@@ -67,11 +67,11 @@ try:
                 # For each asset in the project (might be multiple images)
                 for asset in assets:
                     asset_type = asset["asset_type"]
+                    asset_position = asset["position"]
 
                     # If the asset is an image
                     if asset_type == "image":
                         asset_image_url = asset["image_url"]
-                        asset_position = asset["position"]
                         
                         # Generate a download filename
                         filename = artist_directory + slugify(project_name[:60] + "_" + project_hash_id + "_" + str(asset_position)) + "." + extensionFromUrl(asset_image_url)
